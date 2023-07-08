@@ -1,0 +1,7 @@
+<h1>New Square Connector</h1>
+
+<% if  SquareConnector.count < 1 %>
+  <%= render 'form', square_connector: @square_connector %>
+<% else %>
+  An Connector has already been created
+<% end %>

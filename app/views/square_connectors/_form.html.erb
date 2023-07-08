@@ -1,0 +1,27 @@
+<%= form_with(model: square_connector) do |form| %>
+  <% if square_connector.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(square_connector.errors.count, "error") %> prohibited this square_connector from being saved:</h2>
+
+      <ul>
+        <% square_connector.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :client_id %>
+    <%= form.text_field :client_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :client_secret %>
+    <%= form.text_field :client_secret %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

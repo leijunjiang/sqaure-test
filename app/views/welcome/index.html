@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button with Dynamic Href</title>
+</head>
+<body>
+  <label for="application_id">application_id:</label>
+  <input type="text" id="application_id">
+
+  <label for="application_secret">application_secret:</label>
+  <input type="text" id="application_secret">
+
+  <button id="authorize">Go to Link</button>
+
+  <script>
+    // Get references to the input elements and the button
+    const input1 = document.getElementById('application_id');
+    const input2 = document.getElementById('application_secret');
+    const myButton = document.getElementById('authorize');
+
+    // Event listener for the button click
+    myButton.addEventListener('click', function() {
+      // Get the values from the input elements
+      const value1 = input1.value;
+      const value2 = input2.value;
+
+      // Generate the dynamic href based on the input values
+      const href = 'https://connect.squareupsandbox.com' + '/oauth2/authorize?client_id=' + value1;
+
+      // Navigate to the generated href
+      console.log(href)
+      window.location.href = href;
+    });
+  </script>
+</body>
+</html>

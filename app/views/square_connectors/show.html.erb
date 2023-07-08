@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Client:</strong>
+  <%= @square_connector.client_id %>
+</p>
+
+<p>
+  <strong>Client secret:</strong>
+  <%= @square_connector.client_secret %>
+</p>
+
+<%= link_to 'Edit', edit_square_connector_path(@square_connector) %> |
+<%= link_to 'Back', square_connectors_path %>

@@ -2,8 +2,8 @@ require 'rails_helper'
 require 'webmock/rspec'
 
 RSpec.describe SquareConnectorsController, type: :controller do
-  let(:client_id)     {"sandbox-sq0idb-FOZfOOx5kIogj2JrWC5X2Q"}
-  let(:client_secret) {"sandbox-sq0csb-kQtp3XUl0DRcsy5M2Hjil9U1XxGZ4U9SR9VL-6eHLtQ"}
+  let(:client_id)     {ENV["CLIENT_ID"]}
+  let(:client_secret) {ENV["CLIENT_SECRET"]}
   describe "#create" do
     before do
       SquareConnector.destroy_all

@@ -105,6 +105,8 @@ GEM
       net-http-persistent (~> 4.0)
     faraday-retry (1.0.3)
     ffi (1.15.5)
+    figaro (1.2.0)
+      thor (>= 0.14.0, < 2)
     globalid (1.1.0)
       activesupport (>= 5.0)
     hashdiff (1.0.1)
@@ -307,6 +309,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
+  figaro
   jbuilder (~> 2.7)
   listen (~> 3.3)
   puma (~> 5.0)

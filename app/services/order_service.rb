@@ -1,18 +1,15 @@
 class OrderService
   def initialize(access_token, location_id, options = {})
     @access_token = access_token
-    # @access_token = "EAAAEJHatgHDNjIaLwCkB1n96wXF1YIx7qHmL1LsdMNZfT01v3PA7Fh_7MDv_pBe"
     @location_id = location_id
     @options = options
   end
 
   def list_orders
     begin
-      # byebug
       response = RestClient.post url, request_body, headers
       if response.code == 200
         data = JSON.parse(response.body)
-        byebug
         @orders = data['orders']
       else
         @error_message = data['errors'].first['detail']

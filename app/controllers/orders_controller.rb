@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
     end_date = params[:end_at]
     @orders, @error_message= OrderService.new(access_token, location_id, {start_date: start_date, end_date: end_date})
                                          .list_orders
+    byebug
 
   end
 

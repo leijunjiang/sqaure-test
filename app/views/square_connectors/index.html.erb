@@ -7,9 +7,7 @@
     <tr>
       <th>Client_id</th>
       <th>Client_secret</th>
-      <th>Access_token</th>
-      <th>Refresh_token</th>
-      <th>Expired_at</th>
+      <th>Expired</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -19,12 +17,12 @@
       <tr>
         <td><%= square_connector.client_id %></td>
         <td><%= square_connector.client_secret %></td>
-        <td><%= square_connector.access_token %></td>
-        <td><%= square_connector.refresh_token %></td>
         <td><%= square_connector.expired_at %></td>
-        <td><%= link_to 'Destroy', square_connector_path(square_connector), method: :delete %></td>
+        <td><%= button_to 'Reinitiate', square_connector, :method => :delete %></td>
+        <td><%= button_to 'Refresh Token', refresh_token_square_connector_path(square_connector), method: :get, remote: true %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
 

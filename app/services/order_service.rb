@@ -8,9 +8,11 @@ class OrderService
 
   def list_orders
     begin
+      # byebug
       response = RestClient.post url, request_body, headers
       if response.code == 200
         data = JSON.parse(response.body)
+        byebug
         @orders = data['orders']
       else
         @error_message = data['errors'].first['detail']

@@ -21,6 +21,11 @@
     <%= form.text_field :client_secret %>
   </div>
 
+  <div class="field">
+    <%= form.label :production %> <br />
+    <%= form.check_box :production, {}, true, false %> <br />
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

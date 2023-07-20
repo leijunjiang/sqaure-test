@@ -1,5 +1,5 @@
 class SquareConnector < ApplicationRecord
-
+  
   def authenticate!
     begin
       RestClient.get url
@@ -14,7 +14,11 @@ class SquareConnector < ApplicationRecord
     "#{connect_host}/oauth2/authorize?client_id=#{client_id}"
   end
 
-  def connect_host
-    "https://connect.squareupsandbox.com"
+  def host
+    if production
+      "https://connect.squareup.com"
+    else
+      "https://connect.squareupsandbox.com"
+    end
   end
 end

@@ -3,15 +3,33 @@ class OrdersController < ApplicationController
 
   def index
     return @orders = nil if params[:start_at].blank? or params[:end_at].blank?
+    square_connector = SquareConnector.last
 
-    access_token = SquareConnector.last.access_token
-    location_id = LocationIdFetcher.new(access_token).location_id
+    location_id = LocationIdFetcher.new(square_connector).location_id
     # return unless location_id
     start_date = params[:start_at]
     end_date = params[:end_at]
-    @orders, @error_message= OrderService.new(access_token, location_id, {start_date: start_date, end_date: end_date})
+    @orders, @error_message= OrderService.new(square_connector, location_id, {start_date: start_date, end_date: end_date})
                                          .list_orders
+
+    order_parser = OrderParser.new(@orders)
+    @revenue_categories = order_parser.revenue_categories
+    @revenue =  @revenue_categories.inject(0) {|sum, r| sum += r[1]}
+    @tax_categories = order_parser.tax_categories
+    @tips = order_parser.tips
+    @liabilities = order_parser.liabilities
+
+    invoices = InvoiceService.new(square_connector, location_id).call
+    @assets = InvoiceParser.new(invoices).assets
+
+    payments = PaymentService.new(square_connector).call
+    payment_parser = PaymentParser.new(payments)
+    @payment_processors = payment_parser.payment_processors
+    @adjustments = payment_parser.adjustments
+
     byebug
+
+
 
   end
 

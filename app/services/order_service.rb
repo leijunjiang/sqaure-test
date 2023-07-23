@@ -1,6 +1,8 @@
 class OrderService
-  def initialize(access_token, location_id, options = {})
-    @access_token = access_token
+  attr_accessor :square_connector
+
+  def initialize(square_connector, location_id, options = {})
+    @square_connector = square_connector
     @location_id = location_id
     @options = options
   end
@@ -25,7 +27,7 @@ class OrderService
 
   def headers
     {
-      'authorization' => "Bearer #{@access_token}",
+      'authorization' => "Bearer #{square_connector.access_token}",
       'Square-Version' => '2023-06-08',
       'Content-Type' => 'application/json'
     }

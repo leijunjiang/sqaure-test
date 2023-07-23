@@ -12,13 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2023_07_18_080001) do
 
-  create_table "connectors", force: :cascade do |t|
-    t.string "access_token"
-    t.datetime "expired_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

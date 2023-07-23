@@ -1,24 +1,23 @@
 class OrderParser
   attr_accessor :orders
 
-  def initalize(orders)
+  def initialize(orders)
     @orders = orders
   end
 
   def order_ids
-
+    orders.map {|order| order["id"]}
   end
 
   def revenue_categories
     revenue_per_product = Hash.new(0)
 
-    line_items = orders["line_items"]
     orders&.each do |order|
       order["line_items"]&.each do |line_item|
         product_name = line_item["name"]
         next unless product_name
         quantity = line_item["quantity"].to_i
-        price = line_item["gross_sales_money"]["amount"] / 100
+        price = line_item["gross_sales_money"]["amount"]
         revenue = quantity * price
         revenue_per_product[product_name] += revenue
       end
@@ -36,6 +35,6 @@ class OrderParser
   end
 
   def liabilities
-
+    orders.inject(0){|sum, order| sum += order["total_money"]["amount"]}
   end
 end

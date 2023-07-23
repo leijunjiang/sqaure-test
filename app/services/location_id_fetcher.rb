@@ -1,6 +1,8 @@
 class LocationIdFetcher
-  def initialize(access_token)
-    @access_token = access_token
+  attr_accessor :square_connector
+
+  def initialize(square_connector)
+    @square_connector = square_connector
   end
 
   def location_id
@@ -22,7 +24,7 @@ class LocationIdFetcher
   def headers
     {
       'Square-Version': '2023-06-08',
-      'Authorization': "Bearer #{@access_token}",
+      'Authorization': "Bearer #{square_connector.access_token}",
       'Content-Type': 'application/json'
     }
   end

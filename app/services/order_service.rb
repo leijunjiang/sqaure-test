@@ -7,7 +7,15 @@ class OrderService
     @options = options
   end
 
-  def list_orders
+  def start_at
+    @options[:date]
+  end
+
+  def end_at
+    Date.parse(@options[:date]).next_day.strftime
+  end
+
+  def orders
     begin
       response = RestClient.post url, request_body, headers
       if response.code == 200
@@ -22,7 +30,7 @@ class OrderService
   end
 
   def url
-    "https://connect.squareupsandbox.com/v2/orders/search"
+    square_connector.host + "/v2/orders/search"
   end
 
   def headers
@@ -40,8 +48,8 @@ class OrderService
         filter: {
           date_time_filter: {
             created_at: {
-              start_at: @options[:start_date] + 'T00:00:00Z',
-              end_at: @options[:end_date] + 'T00:00:00Z'
+              start_at: start_at + 'T00:00:00Z',
+              end_at: end_at + 'T00:00:00Z'
             }
           }
         }

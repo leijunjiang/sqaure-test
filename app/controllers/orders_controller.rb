@@ -2,35 +2,32 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
 
   def index
-    return @orders = nil if params[:start_at].blank? or params[:end_at].blank?
+    return @orders = nil if params[:date].blank?
     square_connector = SquareConnector.last
 
     location_id = LocationIdFetcher.new(square_connector).location_id
-    # return unless location_id
-    start_date = params[:start_at]
-    end_date = params[:end_at]
-    @orders, @error_message= OrderService.new(square_connector, location_id, {start_date: start_date, end_date: end_date})
-                                         .list_orders
+    date = params[:date]
 
-    order_parser = OrderParser.new(@orders)
-    @revenue_categories = order_parser.revenue_categories
-    @revenue =  @revenue_categories.inject(0) {|sum, r| sum += r[1]}
-    @tax_categories = order_parser.tax_categories
-    @tips = order_parser.tips
-    @liabilities = order_parser.liabilities
+    @orders, @error_message= OrderService.new(square_connector, location_id, {date: date}).orders
+    if @orders
+      order_parser = OrderParser.new(@orders)
+      @revenue_categories = order_parser.revenue_categories
+      @revenue =  @revenue_categories.inject(0) {|sum, r| sum += r[1]}
+      @taxes = order_parser.taxes
+      @tips = order_parser.tips
+      @liabilities = order_parser.liabilities
 
-    invoices = InvoiceService.new(square_connector, location_id).call
-    @assets = InvoiceParser.new(invoices).assets
+      invoices = InvoiceService.new(square_connector, location_id).call
+      @assets = InvoiceParser.new(invoices).assets
 
-    payments = PaymentService.new(square_connector).call
-    payment_parser = PaymentParser.new(payments)
-    @payment_processors = payment_parser.payment_processors
-    @adjustments = payment_parser.adjustments
+      payments = PaymentService.new(square_connector).call
+      payment_parser = PaymentParser.new(payments)
+      @payment_processors = payment_parser.payment_processors
+      @adjustments = payment_parser.adjustments
 
-    byebug
-
-
-
+      @balanced = ((@revenue + @tips + @liabilities + @assets) - @adjustments)
+    end
+    
   end
 
   # GET /orders/1 or /orders/1.json

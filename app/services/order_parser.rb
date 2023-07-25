@@ -26,7 +26,7 @@ class OrderParser
     revenue_per_product
   end
 
-  def tax_categories
+  def taxes
     orders.inject(0){|sum, order| sum += order["total_tax_money"]["amount"]}
   end
 

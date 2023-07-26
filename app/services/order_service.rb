@@ -1,21 +1,10 @@
-class OrderService
-  attr_accessor :square_connector
-
-  def initialize(square_connector, location_id, options = {})
-    @square_connector = square_connector
-    @location_id = location_id
-    @options = options
+class OrderService < SquareService
+  def initialize(square_connector, options = {})
+    super(square_connector, options)
+    @location_id = options[:location_id]
   end
 
-  def start_at
-    @options[:date]
-  end
-
-  def end_at
-    Date.parse(@options[:date]).next_day.strftime
-  end
-
-  def orders
+  def call
     begin
       response = RestClient.post url, request_body, headers
       if response.code == 200
@@ -31,14 +20,6 @@ class OrderService
 
   def url
     square_connector.host + "/v2/orders/search"
-  end
-
-  def headers
-    {
-      'authorization' => "Bearer #{square_connector.access_token}",
-      'Square-Version' => '2023-06-08',
-      'Content-Type' => 'application/json'
-    }
   end
 
   def request_body

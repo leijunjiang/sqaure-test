@@ -57,7 +57,7 @@ class SquareConnectorsController < ApplicationController
     if authorization_code
       SquareObtainTokenService.new(@square_connector, authorization_code: authorization_code).call
       respond_to do |format|
-        format.html { redirect_to square_connectors_path, notice: "Square connector was successfully updated." }
+        format.html { redirect_to orders_path, notice: "Square connector was successfully updated." }
       end
     else
       respond_to do |format|
@@ -69,7 +69,7 @@ class SquareConnectorsController < ApplicationController
   def refresh_token
     SquareRefreshTokenService.new(@square_connector).call
     respond_to do |format|
-      format.html { redirect_to square_connectors_path, notice: "Square connector was successfully refreshed." }
+      format.html { redirect_to orders_path, notice: "Square connector was successfully refreshed." }
     end
   end
 

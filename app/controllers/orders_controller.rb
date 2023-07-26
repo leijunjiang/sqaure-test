@@ -1,14 +1,14 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :find_connecntor, only: %i[index]
 
   def index
     return @orders = nil if params[:date].blank?
-    square_connector = SquareConnector.last
 
-    location_id = LocationIdFetcher.new(square_connector).location_id
+    location_id = LocationIdFetcherService.new(@square_connector).location_id
     date = params[:date]
 
-    @orders, @error_message= OrderService.new(square_connector, location_id, {date: date}).orders
+    @orders, @error_message= OrderService.new(@square_connector, {location_id: location_id, date: date}).call
     if @orders
       order_parser = OrderParser.new(@orders)
       @revenue_categories = order_parser.revenue_categories
@@ -17,10 +17,10 @@ class OrdersController < ApplicationController
       @tips = order_parser.tips
       @liabilities = order_parser.liabilities
 
-      invoices = InvoiceService.new(square_connector, location_id).call
-      @assets = InvoiceParser.new(invoices).assets
+      invoices = InvoiceService.new(@square_connector, {location_id: location_id, date: date}).call
+      @assets = InvoiceParser.new(invoices, date).assets
 
-      payments = PaymentService.new(square_connector).call
+      payments = PaymentService.new(@square_connector, {date: date}).call
       payment_parser = PaymentParser.new(payments)
       @payment_processors = payment_parser.payment_processors
       @adjustments = payment_parser.adjustments
@@ -85,6 +85,10 @@ class OrdersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = Order.find(params[:id])
+    end
+
+    def find_connecntor
+      @square_connector = SquareConnector.last
     end
 
     # Only allow a list of trusted parameters through.

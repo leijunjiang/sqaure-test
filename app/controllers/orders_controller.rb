@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
-  before_action :find_connecntor, only: %i[index]
+  before_action :find_connector, only: %i[index]
 
   def index
     return @orders = nil if params[:date].blank?
@@ -87,7 +87,7 @@ class OrdersController < ApplicationController
       @order = Order.find(params[:id])
     end
 
-    def find_connecntor
+    def find_connector
       @square_connector = SquareConnector.last
     end
 

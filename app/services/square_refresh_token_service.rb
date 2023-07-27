@@ -34,6 +34,6 @@ class SquareRefreshTokenService
   end
 
 	def headers
-    { content_type: "application/json", square_version: "2023-06-08" }
+    { content_type: "application/json", square_version: "2023-07-20" }
   end
 end

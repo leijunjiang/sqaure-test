@@ -9,34 +9,19 @@ class SquareConnectorsController < ApplicationController
   end
 
   def new
-    @square_connector = SquareConnector.new
+    # @square_connector = SquareConnector.new
   end
 
   def edit
+
   end
 
   def create
     @square_connector = SquareConnector.new(square_connector_params)
     respond_to do |format|
       if @square_connector.save
-        format.html { redirect_to "https://connect.squareupsandbox.com/oauth2/authorize?client_id=#{@square_connector.client_id}&scope=ORDERS_WRITE%20ORDERS_READ%20BANK_ACCOUNTS_READ%20MERCHANT_PROFILE_READ%20PAYMENTS_READ%20SETTLEMENTS_READ%20CUSTOMERS_WRITE%20CUSTOMERS_READ%20INVOICES_READ%20INVOICES_WRITE"}
+        format.html { redirect_to "#{@square_connector.host}/oauth2/authorize?client_id=#{@square_connector.client_id}&scope=ORDERS_WRITE%20ORDERS_READ%20BANK_ACCOUNTS_READ%20MERCHANT_PROFILE_READ%20PAYMENTS_READ%20SETTLEMENTS_READ%20CUSTOMERS_WRITE%20CUSTOMERS_READ%20INVOICES_READ%20INVOICES_WRITE"}
         format.json { render :show, status: :created, location: @square_connector }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @square_connector.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /square_connectors/1 or /square_connectors/1.json
-  def update
-    respond_to do |format|
-      if @square_connector.update(square_connector_params)
-        format.html { redirect_to square_connector_url(@square_connector), notice: "Square connector was successfully updated." }
-        format.json { render :show, status: :ok, location: @square_connector }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @square_connector.errors, status: :unprocessable_entity }
       end
     end
   end

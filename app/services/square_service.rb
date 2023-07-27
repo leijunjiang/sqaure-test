@@ -37,7 +37,7 @@ class SquareService
   def headers
     {
       'authorization' => "Bearer #{square_connector.access_token}",
-      'Square-Version' => '2023-06-08',
+      'Square-Version' => '2023-07-20',
       'Content-Type' => 'application/json'
     }
   end

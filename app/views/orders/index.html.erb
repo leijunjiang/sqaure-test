@@ -1,4 +1,15 @@
-<h1>Data</h1>
+<h1>Environment</h1>
+<% if @square_connector.production%>
+  <h2>Production</h2>
+<% else %>
+  <h2>Sandbox</h2>
+<% end %>
+
+<% if @square_connector.expired_at > Time.now%>
+  <h2>Active</h2>
+<% else %>
+  <h2>Expired  </h2>
+<% end %>
 
 <form action="/orders" method="get">
   <label for="date">Selected Date:</label>

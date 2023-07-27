@@ -38,8 +38,7 @@ class SquareConnectorsController < ApplicationController
 
   def callback
     authorization_code = params['code']
-
-    if authorization_code
+    if authorization_code.present?
       SquareObtainTokenService.new(@square_connector, authorization_code: authorization_code).call
       respond_to do |format|
         format.html { redirect_to orders_path, notice: "Square connector was successfully updated." }

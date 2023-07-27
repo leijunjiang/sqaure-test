@@ -39,42 +39,58 @@ RSpec.describe SquareConnectorsController, type: :controller do
   end
 
   describe "#callback" do
-    before do
-      SquareConnector.destroy_all
-      @square_connector = SquareConnector.create({client_id: client_id, client_secret: client_secret})
-      body_request =  {
-        "client_id"=>client_id,
-        "client_secret"=>client_secret,
-        "code"=>"auth_code",
-        "grant_type"=>"authorization_code"
-      }.to_json
+    context "success with code" do
+      before do
+        SquareConnector.destroy_all
+        @square_connector = SquareConnector.create({client_id: client_id, client_secret: client_secret})
+        body_request =  {
+          "client_id"=>client_id,
+          "client_secret"=>client_secret,
+          "code"=>"auth_code",
+          "grant_type"=>"authorization_code"
+        }.to_json
 
-      headers_request = {:content_type=>"application/json", :square_version=>"2023-07-20"}
+        headers_request = {:content_type=>"application/json", :square_version=>"2023-07-20"}
 
-      body_response = {
-        token_type: "bearer",
-        refresh_token: "refresh_token",
-        access_token: "access_token",
-        expires_at: "2022"
-      }.to_json
+        body_response = {
+          token_type: "bearer",
+          refresh_token: "refresh_token",
+          access_token: "access_token",
+          expires_at: "2022"
+        }.to_json
 
-      headers_response = {
-        'Content-Type'=> 'application/json;charset=UTF-8'
-      }
+        headers_response = {
+          'Content-Type'=> 'application/json;charset=UTF-8'
+        }
 
-      stub_request(:post, "https://connect.squareupsandbox.com/oauth2/token").
-                    with(:body => body_request ,
-                        :headers =>headers_request).
-                    to_return(:status => 200,
-                              :body => body_response,
-                              :headers => headers_response)
+        stub_request(:post, "https://connect.squareupsandbox.com/oauth2/token").
+                      with(:body => body_request ,
+                          :headers =>headers_request).
+                      to_return(:status => 200,
+                                :body => body_response,
+                                :headers => headers_response)
 
-      get :callback, params: {code: 'auth_code'}
+        get :callback, params: {code: 'auth_code'}
+      end
+
+      it "should update acess_token" do
+        expect(flash[:notice]).to eq("Square connector was successfully updated.")
+        @square_connector.reload
+        expect(@square_connector.access_token).to eq("access_token")
+      end
     end
 
-    it "should update acess_token" do
-      @square_connector.reload
-      expect(@square_connector.access_token).to eq("access_token")
+    context "failed without code" do
+      before do
+        SquareConnector.destroy_all
+        @square_connector = SquareConnector.create({client_id: client_id, client_secret: client_secret})
+        get :callback, params: {code: nil}
+      end
+
+      it "should redirect to square_connectors_path" do
+        expect(response).to redirect_to square_connectors_path
+        expect(flash[:notice]).to eq("Square connector creation failed!")
+      end
     end
   end
 

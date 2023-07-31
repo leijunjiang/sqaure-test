@@ -7,12 +7,12 @@
     "@rails/ujs": "^7.0.6",
     "@rails/webpacker": "5.4.4",
     "turbolinks": "^5.2.0",
-    "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "yarn": "^1.22.19"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "webpack": "^5.88.2",
     "webpack-dev-server": "^4"
   }
 }

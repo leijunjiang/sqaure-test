@@ -9,7 +9,7 @@ class SquareConnectorsController < ApplicationController
   end
 
   def new
-    # @square_connector = SquareConnector.new
+    @square_connector = SquareConnector.new
   end
 
   def edit

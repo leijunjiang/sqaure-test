@@ -6,8 +6,6 @@
 //= require jquery
 //= require jquery_ujs
 
-import 'bootstrap/dist/js/bootstrap'
-import 'bootstrap/dist/css/bootstrap'
 require("stylesheets/application.scss")
 
 import Rails from "@rails/ujs"

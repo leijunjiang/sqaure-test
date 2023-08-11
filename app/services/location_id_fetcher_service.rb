@@ -5,6 +5,8 @@ class LocationIdFetcherService < SquareService
       if response.code == 200
         data = JSON.parse response.body
         location = data['locations'].last
+        p '////////// location'
+        p location
         [location["id"], location["name"], location["address"]["locality"] ]
       end
     end

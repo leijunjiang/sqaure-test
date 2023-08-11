@@ -8,7 +8,7 @@ class LocationIdFetcherService < SquareService
       end
       p "location_ids ------"
       p location_ids
-      location_ids&.first
+      location_ids&.last
     end
   end
 

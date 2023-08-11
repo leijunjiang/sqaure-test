@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
 
   def index
     return @orders = nil if params[:date].blank?
-    location_id, @name, @locality = LocationIdFetcherService.new(@square_connector).location_id
+    location_id, @name = LocationIdFetcherService.new(@square_connector).location_id
     date = params[:date]
 
     @orders, @error_message= OrderService.new(@square_connector, {location_id: location_id, date: date}).call

@@ -7,7 +7,7 @@ class LocationIdFetcherService < SquareService
         location = data['locations'].last
         p '////////// location'
         p location
-        [location["id"], location["name"], location["address"]["locality"] ]
+        [location["id"], location["name"]]
       end
     end
   end

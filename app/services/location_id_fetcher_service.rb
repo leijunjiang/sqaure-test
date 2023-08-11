@@ -6,7 +6,8 @@ class LocationIdFetcherService < SquareService
         data = JSON.parse response.body
         location_ids = data['locations'].map { |location| location['id'] }
       end
-
+      p "location_ids ------"
+      p location_ids
       location_ids&.first
     end
   end

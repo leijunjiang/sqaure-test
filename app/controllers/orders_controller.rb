@@ -6,6 +6,8 @@ class OrdersController < ApplicationController
     return @orders = nil if params[:date].blank?
 
     location_id = LocationIdFetcherService.new(@square_connector).location_id
+    p '////// location'
+    p location_id
     date = params[:date]
 
     @orders, @error_message= OrderService.new(@square_connector, {location_id: location_id, date: date}).call

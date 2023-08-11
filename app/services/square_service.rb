@@ -26,7 +26,7 @@ class SquareService
 
   def filtered_by_date(response)
     if start_at 
-      response.select do |payment|
+      response&.select do |payment|
         payment["created_at"] >= start_at && payment["created_at"] <= end_at
       end
     else

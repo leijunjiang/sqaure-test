@@ -1,15 +1,23 @@
 <h1>Environment</h1>
 <% if @square_connector.production%>
-  <h2>Production</h2>
+  <h4>Production</h2>
 <% else %>
-  <h2>Sandbox</h2>
+  <h4>Sandbox</h2>
 <% end %>
 
+<h1>Account Name</h1>
+<h4><%= @name %></h2>
+
+<h1>Locality</h1>
+<h4><%= @locality %></h2>
+
+<h1>Connection Status</h1>
 <% if @square_connector.expired_at > Time.now%>
-  <h2>Active</h2>
+  <h4>Connected and Active</h2>
 <% else %>
-  <h2>Expired  </h2>
+  <h4>Expired  </h2>
 <% end %>
+<%= button_to 'disconnect', @square_connector, :method => :delete %>
 
 <form action="/orders" method="get">
   <label for="date">Selected Date:</label>
@@ -17,58 +25,50 @@
   <input type="submit" value="Fetch Data">
 </form>
 
-<% if @error_message %>
-  <p>Error: <%= @error_message %></p>
-<% else %>
-  <% if @orders&.any? %>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Values</th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Revenue Categories</th>
-         <td> <%= @revenue_categories%> </td>
-      </tr>
-      <tr>
-        <th>Revenue</th>
-         <td> <%= @revenue%> </td>
-      </tr>
-      <tr>
-        <th>Taxes </th>
-        <td><%= @taxes %></td>
-      </tr>
-      <tr>
-        <th>Tips </th>
-        <td><%= @tips %></td>
-      </tr>
-      <tr>
-        <th>Liabilities </th>
-        <td><%= @liabilities %></td>
-      </tr>
-      <tr>
-        <th>Assets </th>
-        <td><%= @assets %></td>
-      </tr>
-      <tr>
-        <th>Payment processors </th>
-        <td><%= @payment_processors %></td>
-      </tr>
-      <tr>
-        <th>Adjustements </th>
-        <td><%= @adjustments %></td>
-      </tr>
-      <tr>
-        <th>Balance </th>
-        <td><%= @balanced %></td>
-      </tr>
-      
-      </tbody>  
-    </table>
-  <% else %>
-    <p>No orders found.</p>
-  <% end %>
-<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th>Revenue Categories</th>
+      <td> <%= @revenue_categories%> </td>
+  </tr>
+  <tr>
+    <th>Revenue</th>
+      <td> <%= @revenue%> </td>
+  </tr>
+  <tr>
+    <th>Taxes </th>
+    <td><%= @taxes %></td>
+  </tr>
+  <tr>
+    <th>Tips </th>
+    <td><%= @tips %></td>
+  </tr>
+  <tr>
+    <th>Liabilities </th>
+    <td><%= @liabilities %></td>
+  </tr>
+  <tr>
+    <th>Assets </th>
+    <td><%= @assets %></td>
+  </tr>
+  <tr>
+    <th>Payment processors </th>
+    <td><%= @payment_processors %></td>
+  </tr>
+  <tr>
+    <th>Adjustements </th>
+    <td><%= @adjustments %></td>
+  </tr>
+  <tr>
+    <th>Balance </th>
+    <td><%= @balanced %></td>
+  </tr>
+
+  </tbody>
+</table>

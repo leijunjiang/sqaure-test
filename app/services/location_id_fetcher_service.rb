@@ -4,11 +4,9 @@ class LocationIdFetcherService < SquareService
       response = RestClient.get url, headers
       if response.code == 200
         data = JSON.parse response.body
-        location_ids = data['locations'].map { |location| location['id'] }
+        location = data['locations'].last
+        [location["id"], location["name"], location["address"]["locality"] ]
       end
-      p "location_ids ------"
-      p location_ids
-      location_ids&.last
     end
   end
 

@@ -4,36 +4,39 @@ class OrdersController < ApplicationController
 
   def index
     return @orders = nil if params[:date].blank?
-
-    location_id = LocationIdFetcherService.new(@square_connector).location_id
-    p '////// location'
-    p location_id
+    location_id, @name, @locality = LocationIdFetcherService.new(@square_connector).location_id
     date = params[:date]
 
     @orders, @error_message= OrderService.new(@square_connector, {location_id: location_id, date: date}).call
     if @orders
+      p 'orders === '
+      p @orders
       order_parser = OrderParser.new(@orders)
       @revenue_categories = order_parser.revenue_categories
       @revenue =  @revenue_categories.inject(0) {|sum, r| sum += r[1]}
       @taxes = order_parser.taxes
       @tips = order_parser.tips
       @liabilities = order_parser.liabilities
-
-      invoices = InvoiceService.new(@square_connector, {location_id: location_id, date: date}).call
-      if invoices
-        @assets = InvoiceParser.new(invoices, date).assets
-      end
-
-      payments = PaymentService.new(@square_connector, {date: date}).call
-      if payments
-        payment_parser = PaymentParser.new(payments)
-        @payment_processors = payment_parser.payment_processors
-        @adjustments = payment_parser.adjustments
-      end
-
-      # @balanced = ((@revenue + @tips + @liabilities + @assets) - @adjustments) 
     end
-    
+
+    invoices = InvoiceService.new(@square_connector, {location_id: location_id, date: date}).call
+    if invoices
+      p "invoices ==== "
+      p invoices
+      @assets = InvoiceParser.new(invoices, date).assets
+    end
+
+    payments = PaymentService.new(@square_connector, {date: date}).call
+    if payments
+      p "payments ==== "
+      p payments
+      payment_parser = PaymentParser.new(payments)
+      @payment_processors = payment_parser.payment_processors
+      @adjustments = payment_parser.adjustments
+    end
+
+    @balanced = BalanceCalculator.new(@revenue, @tips, @liabilities, @assets, @adjustments).calculate
+
   end
 
   # GET /orders/1 or /orders/1.json

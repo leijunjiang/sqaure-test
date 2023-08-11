@@ -20,7 +20,46 @@ class SquareConnectorsController < ApplicationController
     @square_connector = SquareConnector.new(square_connector_params)
     respond_to do |format|
       if @square_connector.save
-        format.html { redirect_to "#{@square_connector.host}/oauth2/authorize?client_id=#{@square_connector.client_id}&scope=ORDERS_WRITE%20ORDERS_READ%20BANK_ACCOUNTS_READ%20MERCHANT_PROFILE_READ%20PAYMENTS_READ%20SETTLEMENTS_READ%20CUSTOMERS_WRITE%20CUSTOMERS_READ%20INVOICES_READ%20INVOICES_WRITE"}
+        scope_path = %w(
+          BANK_ACCOUNTS_READ
+          APPOINTMENTS_WRITE
+          APPOINTMENTS_ALL_WRITE
+          APPOINTMENTS_READ
+          APPOINTMENTS_BUSINESS_SETTINGS_READ
+          PAYMENTS_READ
+          PAYMENTS_WRITE
+          CASH_DRAWER_READ
+          ITEMS_WRITE
+          ITEMS_READ
+          ORDERS_WRITE
+          ORDERS_READ
+          CUSTOMERS_WRITE
+          CUSTOMERS_READ
+          DEVICE_CREDENTIAL_MANAGEMENT
+          DISPUTES_WRITE
+          DISPUTES_READ
+          EMPLOYEES_READ
+          GIFTCARDS_READ
+          GIFTCARDS_WRITE
+          INVENTORY_WRITE
+          INVENTORY_READ
+          INVOICES_WRITE
+          INVOICES_READ
+          TIMECARDS_SETTINGS_WRITE
+          TIMECARDS_WRITE
+          TIMECARDS_SETTINGS_READ
+          MERCHANT_PROFILE_WRITE
+          MERCHANT_PROFILE_READ
+          LOYALTY_READ
+          LOYALTY_WRITE
+          PAYMENTS_WRITE_IN_PERSON
+          SETTLEMENTS_READ
+          PAYMENTS_WRITE_SHARED_ONFILE
+          PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS
+          PAYOUTS_READ
+        ).join("%20")
+
+        format.html { redirect_to "#{@square_connector.host}/oauth2/authorize?client_id=#{@square_connector.client_id}&scope=#{scope_path}"}
         format.json { render :show, status: :created, location: @square_connector }
       end
     end

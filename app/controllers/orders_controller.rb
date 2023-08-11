@@ -20,14 +20,18 @@ class OrdersController < ApplicationController
       @liabilities = order_parser.liabilities
 
       invoices = InvoiceService.new(@square_connector, {location_id: location_id, date: date}).call
-      @assets = InvoiceParser.new(invoices, date).assets
+      if invoices
+        @assets = InvoiceParser.new(invoices, date).assets
+      end
 
       payments = PaymentService.new(@square_connector, {date: date}).call
-      payment_parser = PaymentParser.new(payments)
-      @payment_processors = payment_parser.payment_processors
-      @adjustments = payment_parser.adjustments
+      if payments
+        payment_parser = PaymentParser.new(payments)
+        @payment_processors = payment_parser.payment_processors
+        @adjustments = payment_parser.adjustments
+      end
 
-      @balanced = ((@revenue + @tips + @liabilities + @assets) - @adjustments)
+      # @balanced = ((@revenue + @tips + @liabilities + @assets) - @adjustments) 
     end
     
   end

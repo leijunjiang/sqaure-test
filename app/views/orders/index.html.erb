@@ -14,7 +14,10 @@
 <% else %>
   <h4>Expired  </h2>
 <% end %>
-<%= button_to 'disconnect', @square_connector, :method => :delete %>
+
+<% if @square_connector %>
+  <%= button_to 'disconnect', @square_connector, :method => :delete %>
+<% end %>
 
 <form action="/orders" method="get">
   <label for="date">Selected Date:</label>

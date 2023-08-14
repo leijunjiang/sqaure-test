@@ -2,12 +2,14 @@
 
 <h1>Square Connectors</h1>
 
+
 <table>
   <thead>
     <tr>
       <th>Client_id</th>
       <th>Client_secret</th>
       <th>Expired</th>
+      <th>Connected?</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -18,6 +20,7 @@
         <td><%= square_connector.client_id %></td>
         <td><%= square_connector.client_secret %></td>
         <td><%= square_connector.expired_at %></td>
+        <td><%= square_connector.access_token ? "Connected" : "You need to reinitiate" %></td>
         <td><%= button_to 'Reinitiate', square_connector, :method => :delete %></td>
         <td><%= button_to 'Refresh Token', refresh_token_square_connector_path(square_connector), method: :get, remote: true %></td>
       </tr>

@@ -1,5 +1,5 @@
 <h1>Environment</h1>
-<% if @square_connector.production%>
+<% if @square_connector&.production%>
   <h4>Production</h2>
 <% else %>
   <h4>Sandbox</h2>
@@ -9,7 +9,7 @@
 <h4><%= @name %></h2>
 
 <h1>Connection Status</h1>
-<% if @square_connector.expired_at > Time.now%>
+<% if @square_connector&.expired_at && (@square_connector.expired_at > Time.now)%>
   <h4>Connected and Active</h2>
 <% else %>
   <h4>Expired  </h2>

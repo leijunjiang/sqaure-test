@@ -10,9 +10,15 @@
 
 <h1>Connection Status</h1>
 <% if @square_connector&.expired_at && (@square_connector.expired_at > Time.now)%>
-  <h4>Connected and Active</h2>
+  <h4>Active</h2>
 <% else %>
   <h4>Expired  </h2>
+<% end %>
+
+<% if @square_connector&.access_token %>
+  <h4>Connected</h2>
+<% else %>
+  <h4>Disconnected</h2>
 <% end %>
 
 <% if @square_connector %>

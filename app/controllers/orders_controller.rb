@@ -4,6 +4,12 @@ class OrdersController < ApplicationController
 
   def index
     return @orders = nil if params[:date].blank?
+
+    p "@square_connector == "
+    p @square_connector
+    p "access_token ==="
+    p @square_connector&.access_token
+
     location_id, @name = LocationIdFetcherService.new(@square_connector).location_id
     date = params[:date]
 

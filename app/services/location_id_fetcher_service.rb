@@ -6,7 +6,7 @@ class LocationIdFetcherService < SquareService
         data = JSON.parse response.body
         p '////// locations ==== '
         p data['locations']
-        location = data['locations'].last
+        location = data['locations'].first
         p '////////// location'
         p location
         [location["id"], location["name"]]

@@ -4,6 +4,8 @@ class LocationIdFetcherService < SquareService
       response = RestClient.get url, headers
       if response.code == 200
         data = JSON.parse response.body
+        p '////// locations ==== '
+        p data['locations']
         location = data['locations'].last
         p '////////// location'
         p location
